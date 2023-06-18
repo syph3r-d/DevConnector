@@ -1,4 +1,4 @@
 {
-    "mongoURI": "mongodb+srv://syph3rd:sadeepa@devconnector.f6agmtp.mongodb.net/?retryWrites=true&w=majority",
-    "jwtSecret":"secret"
+    "mongoURI": ${{secrets.MONGODB_URI}},
+    "jwtSecret":${{secrets.JWT_SECRET}}
 }
