@@ -1,4 +1,0 @@
-{
-  "mongoURI": "mongodb+srv://sadeepa:sadeepa@cluster0.h2wvp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
-  "jwtSecret": "secret"
-}
