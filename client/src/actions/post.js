@@ -75,7 +75,6 @@ export const postDelete = (id) => async (dispatch) => {
 
 export const getPostById = (id) => async (dispatch) => {
   try {
-    axios.defaults.baseURL = "http://10.10.25.213:3000/";
     const res = await axios.get(`api/post/${id}`);
     dispatch({
       type: GET_POST,
@@ -117,45 +116,48 @@ export const postSubmit =
     }
   };
 
-export const postComment=({id,text})=>async dispatch=>{
-  const body={
-    text
-  }
+export const postComment =
+  ({ id, text }) =>
+  async (dispatch) => {
+    const body = {
+      text,
+    };
 
-  const config={
-    headers:{
-      'content-type':'application/json'
+    const config = {
+      headers: {
+        "content-type": "application/json",
+      },
+    };
+
+    try {
+      const res = await axios.post(`api/post/comment/${id}`, body, config);
+      dispatch({
+        type: COMMENTS_UPDATED,
+        payload: { id, comments: res.body },
+      });
+      dispatch(setAlert("Comment Added", "success"));
+    } catch (err) {
+      dispatch({
+        type: POST_ERROR,
+      });
+      dispatch(setAlert(err.response.data.msg, "danger"));
     }
-  }
+  };
 
-  try {
-    axios.defaults.baseURL = "http://localhost:3000/";
-    const res=await axios.post(`api/post/comment/${id}`,body,config)
-    dispatch({
-      type:COMMENTS_UPDATED,
-      payload:{id,comments:res.body}
-    })
-    dispatch(setAlert('Comment Added','success'))
-  } catch (err) {
-    dispatch({
-      type: POST_ERROR,
-    });
-    dispatch(setAlert(err.response.data.msg, "danger"));
-  }
-}
-
-export const deleteComment=({cid,pid})=>async dispatch=>{
-  try {
-    const res = await axios.delete(`api/post/${pid}/${cid}`);
-    dispatch({
-      type: COMMENTS_UPDATED,
-      payload:{id:pid,comments:res.body}
-    });
-    dispatch(setAlert("Post Deleted", "success"));
-  } catch (err) {
-    dispatch({
-      type: POST_ERROR,
-    });
-    dispatch(setAlert(err.response.data.msg, "danger"));
-  }
-}
+export const deleteComment =
+  ({ cid, pid }) =>
+  async (dispatch) => {
+    try {
+      const res = await axios.delete(`api/post/${pid}/${cid}`);
+      dispatch({
+        type: COMMENTS_UPDATED,
+        payload: { id: pid, comments: res.body },
+      });
+      dispatch(setAlert("Post Deleted", "success"));
+    } catch (err) {
+      dispatch({
+        type: POST_ERROR,
+      });
+      dispatch(setAlert(err.response.data.msg, "danger"));
+    }
+  };

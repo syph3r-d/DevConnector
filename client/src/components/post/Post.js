@@ -11,7 +11,7 @@ const Post = ({ getPostById, post, loading }) => {
   let { id } = useParams();
   useEffect(() => {
     getPostById(id);
-  }, [getPostById, id,post]);
+  }, []);
   return (
     <Fragment>
       {!loading && post.post !== null ? (
@@ -20,7 +20,9 @@ const Post = ({ getPostById, post, loading }) => {
           <PostComment post={post.post} />
           <div className="post-comments">
             {post.post.comments.length > 0 ? (
-              post.post.comments.map((com) => <Comment key={com._id} comment={com} pid={post.post._id} />)
+              post.post.comments.map((com) => (
+                <Comment key={com._id} comment={com} pid={post.post._id} />
+              ))
             ) : (
               <Fragment></Fragment>
             )}
