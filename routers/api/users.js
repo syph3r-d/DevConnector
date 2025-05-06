@@ -3,7 +3,7 @@ const router = express.Router();
 const gravatar = require("gravatar");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const config=require('config')
+const config = require("../../config/config");
 const { check, validationResult } = require("express-validator");
 
 const User = require("../../models/User");
@@ -55,7 +55,6 @@ router.post(
       const salt = await bcrypt.genSalt(10); //higher more secure but slow //if we not used await then we would have to write .then() method
       user.password = await bcrypt.hash(password, salt);
 
-      
       await user.save();
 
       //return jsonwebtoken
@@ -67,7 +66,7 @@ router.post(
 
       jwt.sign(
         payload,
-        config.get("jwtSecret"),
+        config.jwtSecret,
         { expiresIn: 360000 },
         (err, token) => {
           if (err) throw err;
